@@ -17,6 +17,8 @@ app.get("/", (req, res) => {
 
 // import zod schema
 
+// create todo
+
 app.post("/todo", async (req, res) => {
   const { success } = createTodo.safeParse(req.body);
   if (!success) {
@@ -54,6 +56,7 @@ app.put("/completed/:id", async (req, res) => {
     res.status(411).json({ message: "You are sending wrong  inputs" });
   }
 
+  // id of perticular todo which one is updateed
   const todoId = req.params.id;
 
   const updateData = {
@@ -66,22 +69,19 @@ app.put("/completed/:id", async (req, res) => {
   const oldData = await Todo.findById(todoId);
   if (!oldData) {
     res.status(200).json({ message: "Todo not found in database" });
-  }else{
-    const update = await Todo.findOneAndUpdate({_id:todoId},{
-      title:updateData.title,
-      description:updateData.description,
-      complete:updateData.complete
-    })
+  } else {
+    const update = await Todo.findOneAndUpdate(
+      { _id: todoId },
+      {
+        title: updateData.title,
+        description: updateData.description,
+        complete: updateData.complete,
+      }
+    );
   }
-    console.log(req.body._id)
-    res.status(200).json({message:"Update Data successfull"})
-//   }
-
-  
-
-
-
-
+  console.log(req.body._id);
+  res.status(200).json({ message: "Update Data successfull" });
+  //   }
 });
 
 // delete todo
