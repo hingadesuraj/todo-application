@@ -19,8 +19,10 @@ function App() {
       },
       body: JSON.stringify(data) 
     });
-
-    console.log(pushData);
+   setTitle('');
+   setDescription('');
+   setMark(false)
+    // console.log(pushData);
   };
 
   return (

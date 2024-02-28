@@ -21,11 +21,11 @@ app.get("/", (req, res) => {
 
 app.post("/todo", async (req, res) => {
   const success  = createTodo.safeParse(req.body);
-  console.log(req.body)
-  console.log(success)
-  // if (!success) {
-  //   res.status(411).json({ message: "Please follow validation" });
-  // }
+  // console.log(req.body)
+  // console.log(success)
+  if (!success) {
+    res.status(411).json({ message: "Please follow validation" });
+  }
   const todoData = {
     title: req.body.title,
     description: req.body.description,
