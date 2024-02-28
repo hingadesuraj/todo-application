@@ -9,7 +9,7 @@ const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
-connnectToDb();
+connnectToDb(); 
 
 app.get("/", (req, res) => {
   res.send("Server is working.....!");
@@ -20,26 +20,28 @@ app.get("/", (req, res) => {
 // create todo
 
 app.post("/todo", async (req, res) => {
-  const { success } = createTodo.safeParse(req.body);
-  if (!success) {
-    res.status(200).json({ message: "Please follow validation" });
-  }
+  const success  = createTodo.safeParse(req.body);
+  console.log(req.body)
+  console.log(success)
+  // if (!success) {
+  //   res.status(411).json({ message: "Please follow validation" });
+  // }
   const todoData = {
     title: req.body.title,
     description: req.body.description,
     complete: req.body.complete,
-  };
+  };   
 
-  const save = await Todo.create(todoData);
-
-  const todoId = save._id;
-
+  const save = await Todo.create(todoData);  
+ 
+  const todoId = save._id; 
+ 
   res.status(200).json({ message: "Todo Created Successfull", todoId });
 });
 
 app.get("/todos", async (req, res) => {
   try {
-    const todos = await Todo.find({});
+    const todos = await Todo.find({}); 
     res.status(200).json({ todos });
   } catch (error) {
     res.status(403).json({ message: "Todos are not found " });

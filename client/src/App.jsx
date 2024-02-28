@@ -3,16 +3,25 @@ import "./App.css";
 import Todo from "./components/Todo";
 
 function App() {
- const [title,setTitle] = useState("");
- const [description,setDescription] = useState("");
- const [mark,setMark] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [mark, setMark] = useState(false);
 
-  const handleSubmit = () =>{
-    alert(title,description,mark)
+  const data = {
+    title,description,complete:mark
   }
 
- 
+  const handleSubmit = async () => {
+    const pushData = await fetch("http://localhost:3000/todo",{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data) 
+    });
 
+    console.log(pushData);
+  };
 
   return (
     <>
@@ -28,8 +37,7 @@ function App() {
             type="text"
             name="title"
             value={title}
-            onChange={(e)=>setTitle(e.target.value)}
-
+            onChange={(e) => setTitle(e.target.value)}
           />
           Description{" "}
           <input
@@ -37,13 +45,23 @@ function App() {
             type="text"
             name="description"
             value={description}
-            onChange={(e)=>setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
           <div>
             Mark Done{" "}
-            <input className="p-2 m-2 gap-3" type="checkbox" name="mark" id="" value={mark} onChange={(e)=>setMark(e.target.value)}  />
+            <input
+              className="p-2 m-2 gap-3"
+              type="checkbox"
+              name="mark"
+              id=""
+              value={mark}
+              onChange={(e) => setMark(e.target.checked)}
+            />
           </div>
-          <button onClick={handleSubmit} className="border-2 border-black bg-white text-black hover:bg-black hover:text-white p-2 rounded-md">
+          <button
+            onClick={handleSubmit}
+            className="border-2 border-black bg-white text-black hover:bg-black hover:text-white p-2 rounded-md"
+          >
             Submit
           </button>
         </div>
