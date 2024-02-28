@@ -25,7 +25,7 @@ app.post("/todo", async (req, res) => {
   const todoData = {
     title: req.body.title,
     description: req.body.description,
-    complete : req.body.complete
+    complete: req.body.complete,
   };
 
   const save = await Todo.create(todoData);
@@ -44,30 +44,58 @@ app.get("/todos", async (req, res) => {
   }
 });
 
-
 // update todo
 
-app.put("/completed", (req, res) => {
+app.put("/completed", async (req, res) => {
   // validate data using zod schema
   const { success } = updateTodo.safeParse(req.body);
 
   if (!success) {
     res.status(411).json({ message: "You are sending wrong  inputs" });
   }
-});
 
+//   const todoId = req.params.id;
+
+//   const updateData = {
+//     title: req.body.title,
+//     description: req.body.description,
+//     complete: req.body.complete,
+//   };
+
+  //   findOld Data
+//   const oldData = await Todo.findById(todoId);
+//   if (!oldData) {
+//     res.status(200).json({ message: "Todo not found in database" });
+//   }else{
+    const update = await Todo.update({
+        _id:req.body._id
+    },{
+        complete:true
+    })
+
+    res.status(200).json({message:"Update Data successfull"})
+//   }
+
+  
+
+
+
+
+});
 
 // delete todo
 
-app.delete("/todo/:id",async (req,res)=>{
-    const todoId = req.params.id
-    try {
-        const findTodo = await Todo.findByIdAndDelete(todoId);
-        res.status(200).json({message:"Todo has been deleted from backend",findTodo})
-    } catch (error) {
-        res.status(411).json({message:"Todo can not be deleted...!"})
-    }
-})
+app.delete("/todo/:id", async (req, res) => {
+  const todoId = req.params.id;
+  try {
+    const findTodo = await Todo.findByIdAndDelete(todoId);
+    res
+      .status(200)
+      .json({ message: "Todo has been deleted from backend", findTodo });
+  } catch (error) {
+    res.status(411).json({ message: "Todo can not be deleted...!" });
+  }
+});
 
 app.listen(PORT, () => {
   console.log("Server is running on " + "http://localhost:3000");
