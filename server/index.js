@@ -46,7 +46,7 @@ app.get("/todos", async (req, res) => {
 
 // update todo
 
-app.put("/completed", async (req, res) => {
+app.put("/completed/:id", async (req, res) => {
   // validate data using zod schema
   const { success } = updateTodo.safeParse(req.body);
 
@@ -54,25 +54,26 @@ app.put("/completed", async (req, res) => {
     res.status(411).json({ message: "You are sending wrong  inputs" });
   }
 
-//   const todoId = req.params.id;
+  const todoId = req.params.id;
 
-//   const updateData = {
-//     title: req.body.title,
-//     description: req.body.description,
-//     complete: req.body.complete,
-//   };
+  const updateData = {
+    title: req.body.title,
+    description: req.body.description,
+    complete: req.body.complete,
+  };
 
   //   findOld Data
-//   const oldData = await Todo.findById(todoId);
-//   if (!oldData) {
-//     res.status(200).json({ message: "Todo not found in database" });
-//   }else{
-    const update = await Todo.update({
-        _id:req.body._id
-    },{
-        complete:true
+  const oldData = await Todo.findById(todoId);
+  if (!oldData) {
+    res.status(200).json({ message: "Todo not found in database" });
+  }else{
+    const update = await Todo.findOneAndUpdate({_id:todoId},{
+      title:updateData.title,
+      description:updateData.description,
+      complete:updateData.complete
     })
-
+  }
+    console.log(req.body._id)
     res.status(200).json({message:"Update Data successfull"})
 //   }
 
