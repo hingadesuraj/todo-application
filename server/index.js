@@ -15,29 +15,33 @@ app.get("/", (req, res) => {
   res.send("Server is working.....!");
 });
 
-// import zod schema 
-
+// import zod schema
 
 app.post("/todo", async (req, res) => {
-    const {success} = createTodo.safeParse(req.body);
-    if(!success){
-        res.status(200).json({message:"Please follow validation"})
+  const { success } = createTodo.safeParse(req.body);
+  if (!success) {
+    res.status(200).json({ message: "Please follow validation" });
+  }
+  const todoData = {
+    title: req.body.title,
+    description: req.body.description,
+  };
 
-    }
-    const todoData = {
-        title:req.body.title,
-        description:req.body.description
-    }
+  const save = await Todo.create(todoData);
 
-    const save = await Todo.create(todoData);
+  const todoId = save._id;
 
-    const todoId = save._id
-
-    res.status(200).json({message:"Todo Created Successfull",todoId})
-
+  res.status(200).json({ message: "Todo Created Successfull", todoId });
 });
 
-app.get("/todos", (req, res) => {});
+app.get("/todos", async (req, res) => {
+    try {
+        const todos = await Todo.find({});
+        res.status(200).json({todos})
+    } catch (error) {
+        res.status(403).json({message:"Todos are not found "})
+    }
+});
 
 app.put("/completed", (req, res) => {});
 
