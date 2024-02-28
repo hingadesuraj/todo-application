@@ -1,11 +1,13 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
+const connnectToDb = require('./db');
 const app = express();
 const PORT = 3000;
 
 
 app.use(cors());
 app.use(express.json());
+connnectToDb();
 
 
 app.get("/",(req,res)=>{
