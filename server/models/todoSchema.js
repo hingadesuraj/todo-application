@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-const { string } = require('zod');
+const { string, boolean } = require('zod');
 
 const todoSchema = mongoose.Schema({
     title:String,
-    description:String
+    description:String,
+    complete:Boolean
 })
 
 
