@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Todo from "./components/Todo";
 
 function App() {
+
+  // Todo Data
+
+  const [todoData,setTodoData]=useState([])
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [mark, setMark] = useState(false);
@@ -24,6 +29,10 @@ function App() {
    setMark(false)
     // console.log(pushData);
   };
+
+  // fetch todo
+
+  useEffect()
 
   return (
     <>
