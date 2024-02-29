@@ -3,36 +3,52 @@ import "./App.css";
 import Todo from "./components/Todo";
 
 function App() {
-
   // Todo Data
 
-  const [todoData,setTodoData]=useState([])
+  const [todoData, setTodoData] = useState([]);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [mark, setMark] = useState(false);
 
   const data = {
-    title,description,complete:mark
-  }
+    title,
+    description,
+    complete: mark,
+  };
 
   const handleSubmit = async () => {
-    const pushData = await fetch("http://localhost:3000/todo",{
-      method: 'POST',
+    const pushData = await fetch("http://localhost:3000/todo", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data) 
+      body: JSON.stringify(data),
     });
-   setTitle('');
-   setDescription('');
-   setMark(false)
+    setTitle("");
+    setDescription("");
+    setMark(false);
     // console.log(pushData);
   };
 
   // fetch todo
+  const getData = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/todos");
+      const data = await res.json(); // Parse the JSON response
+      // console.log(data); // Log the parsed data, not the response object
+      setTodoData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-  useEffect()
+  useEffect(() => {
+    getData();
+  }, []);
+
+  console.log(todoData);
+  const { todos } = todoData;
 
   return (
     <>
@@ -77,12 +93,20 @@ function App() {
           </button>
         </div>
       </section>
-      <Todo
-        id={1}
-        title={"todo title"}
-        description={"todo description"}
-        complete={true}
-      />
+      <div className="flex justify-center items-center">
+        {todos.map((data, index) => {
+          return (
+            <>
+              <Todo
+                id={data._id}
+                title={data.title}
+                description={data.description}
+                complete={data.complete}
+              />
+            </>
+          );
+        })}
+      </div>
     </>
   );
 }
