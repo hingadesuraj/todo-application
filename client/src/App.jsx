@@ -94,7 +94,7 @@ function App() {
         </div>
       </section>
       <div className="flex justify-center items-center">
-        {todos.map((data, index) => {
+        {/* {todos.map((data, index) => {
           return (
             <>
               <Todo
@@ -105,7 +105,7 @@ function App() {
               />
             </>
           );
-        })}
+        })} */}
       </div>
     </>
   );
