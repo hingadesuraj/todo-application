@@ -100,6 +100,16 @@ app.delete("/todo/:id", async (req, res) => {
   }
 });
 
+// delete all todo
+app.delete('/tododelete',async (req,res)=>{
+  try {
+    const deleteTodo = await Todo.deleteMany({});;
+    res.status(200).json({message:"Delete Todo"});
+  } catch (error) {
+    res.status(411).json({error:error.message})
+  }
+})
+
 app.listen(PORT, () => {
   console.log("Server is running on " + "http://localhost:3000");
 });

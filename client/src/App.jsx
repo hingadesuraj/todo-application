@@ -106,6 +106,10 @@ function App() {
             </>
           );
         })} */}
+        <div className="flex flex-row">
+          <div>
+
+        
         {todoData.map((data)=>{
           return(
             <>
@@ -114,9 +118,21 @@ function App() {
             {data.description}
             <br />
             {data.complete}
+            <br />
+            <button className="border-7 bg-black gap-6 text-white" >Delete</button>
+            
+            <button className="border-7 bg-white text-black border-black rounded-md" >Update</button>
+           
+            <hr />
+            {/* <Todo id={data._id} title={data.title} description={data.description} complete={data.complete} /> */}
+            
+           
+              
             </>
           )
         })}
+          </div>
+        </div>
       </div>
     </>
   );
