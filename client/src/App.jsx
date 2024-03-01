@@ -37,7 +37,7 @@ function App() {
       const res = await fetch("http://localhost:3000/todos");
       const data = await res.json(); // Parse the JSON response
       // console.log(data); // Log the parsed data, not the response object
-      setTodoData(data);
+      setTodoData(data.todos);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -48,8 +48,8 @@ function App() {
   }, []);
 
   console.log(todoData);
-  const { todos } = todoData;
-
+//   const { todos } = todoData;
+// console.log(todos)
   return (
     <>
       <h1 className="text-3xl font-bold underline">
@@ -106,6 +106,17 @@ function App() {
             </>
           );
         })} */}
+        {todoData.map((data)=>{
+          return(
+            <>
+            {data.title}
+            <br />
+            {data.description}
+            <br />
+            {data.complete}
+            </>
+          )
+        })}
       </div>
     </>
   );
