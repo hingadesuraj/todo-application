@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import Todo from "./components/Todo";
 
@@ -6,7 +6,6 @@ function App() {
   // Todo Data
 
   const [todoData, setTodoData] = useState([]);
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [mark, setMark] = useState(false);
@@ -17,7 +16,7 @@ function App() {
     complete: mark,
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     const pushData = await fetch("http://localhost:3000/todo", {
       method: "POST",
       headers: {
@@ -29,7 +28,7 @@ function App() {
     setDescription("");
     setMark(false);
     // console.log(pushData);
-  };
+  });
 
   // fetch todo
   const getData = async () => {
@@ -43,13 +42,14 @@ function App() {
     }
   };
 
+//  handleDelete and handleUpdate working 
+
   useEffect(() => {
     getData();
   }, [handleSubmit]);
 
-  console.log(todoData);
-//   const { todos } = todoData;
-// console.log(todos)
+  // console.log(todoData);
+
   return (
     <>
       <h1 className="text-3xl font-bold underline">
@@ -108,29 +108,32 @@ function App() {
         })} */}
         <div className="flex flex-row">
           <div>
+            {todoData.map((data) => {
+              return (
+                <>
+                  {data.title}
+                  <br />
+                  {data.description}
+                  <br />
+                  {data.complete}
+                  <br />
+                  {data._id}
+                  <button
+                    className="border-7 bg-black gap-6 text-white"
+                  
+                  >
+                    Delete
+                  </button>
 
-        
-        {todoData.map((data)=>{
-          return(
-            <>
-            {data.title}
-            <br />
-            {data.description}
-            <br />
-            {data.complete}
-            <br />
-            <button className="border-7 bg-black gap-6 text-white" >Delete</button>
-            
-            <button className="border-7 bg-white text-black border-black rounded-md" >Update</button>
-           
-            <hr />
-            {/* <Todo id={data._id} title={data.title} description={data.description} complete={data.complete} /> */}
-            
-           
-              
-            </>
-          )
-        })}
+                  <button className="border-7 bg-white text-black border-black rounded-md">
+                    Update
+                  </button>
+
+                  <hr />
+                  {/* <Todo id={data._id} title={data.title} description={data.description} complete={data.complete} /> */}
+                </>
+              );
+            })}
           </div>
         </div>
       </div>
