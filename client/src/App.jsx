@@ -45,7 +45,7 @@ function App() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [handleSubmit]);
 
   console.log(todoData);
 //   const { todos } = todoData;
